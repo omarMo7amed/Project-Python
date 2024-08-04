@@ -4,7 +4,8 @@ from tkinter import ttk
 import tkinter as tk
 from PIL import Image , ImageTk
 import sqlite3
-import secPage
+import getInfo
+
 
 
 # student_code :'202233235',  student id:'30402051700999' //test
@@ -100,13 +101,13 @@ def handleSubmit():
     student_code = student_code_entry.get()
     student_id=student_id_entry.get()
 
-    # check if empty or not
-    if not student_code:
-        print("Student Code is required.")
-        return
-    if not student_id:
-        print("Student ID is required.")
-        return
+     #check if empty or not
+    if student_code =='':
+         messagebox.showwarning("Warning","Student Code is required.")
+         return
+    if  student_id=='':
+         messagebox.showwarning("Warning","Student ID is required.")
+         return
     
      # Connect to the database
     conn = sqlite3.connect('./data/college_registration.db',)
@@ -115,32 +116,32 @@ def handleSubmit():
     # Check if student_id and student_code exist in the database
     cursor.execute("SELECT * FROM students WHERE student_id = ?", (student_id,))
     result_id = cursor.fetchone()
-    
+
     cursor.execute("SELECT * FROM students WHERE student_code = ?", (student_code,))
     result_code = cursor.fetchone()
     
     
-    if result_code is None:
-        messagebox.showerror("Error", "Enter valid code")
-        return
+    if result_code is None :
+         messagebox.showerror("Error", "Enter valid code")
+         return
         
     if result_id is None:
         messagebox.showerror("Error", "Your id Not valid")
         return
     
     
-    #Hello message
-    cursor.execute("SELECT name FROM students WHERE student_code = ?", (student_code,))
-    result_name = cursor.fetchone()
-    messagebox.showinfo('Valid', f"Welcome, {result_name[0]}")
+    # #Hello message
+    cursor.execute("SELECT name FROM students WHERE student_code = ? and student_id =?", (student_code,student_id))
+    [result_name] = cursor.fetchone()
+    messagebox.showinfo('Valid', f"Welcome, {result_name}")
     
     #Navigate page
     global id
     global code
-    id=student_id_entry.get()
-    code=student_code_entry.get()
+    id=student_id
+    code=student_code
     root.destroy()
-    secPage.transition(code,id)
+    getInfo.transition(code,id)
     cursor.close()
     conn.close()
     

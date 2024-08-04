@@ -1,11 +1,15 @@
 from tkinter import *
 from tkinter import messagebox
 import sqlite3
+import subprocess
+import registerDepartment
+import about
 
 def transition(code,id) :
+
  secPage = Tk()
  secPage.title("STUDENT INFO")
- secPage.geometry("1600x900")
+ secPage.geometry("1200x600") # 1200 x 600 
  conn= sqlite3.connect("./data/college_registration.db",)
  cursor1 = conn.cursor()
 
@@ -15,7 +19,7 @@ def transition(code,id) :
  
  #structure data
  data=result[0]
- student_id, name , student_code , level , hours_passed , gpa = data
+ (student_id, name , student_code , level , hours_passed , gpa) = data
  
  st_nm=StringVar()
  st_nm.set(name)
@@ -32,14 +36,13 @@ def transition(code,id) :
 # print(result)
 
 #-------About----------------
- def aboutPage():
+ def LoginPage():
     #Here we navigate to the Fourth page to show info aboutPage each department 
     #Write your code here ...
     
     
-  conn.commit()
-  cursor1.close()
-  conn.close()
+    secPage.destroy()
+    subprocess.Popen(["python", "App.py"])
 
 #---------Register-----------
  def registerPage():
@@ -47,28 +50,28 @@ def transition(code,id) :
     #Here we navigate to the third page to registerPage your Desires 
     # Write your code here ...
 
+    secPage.destroy()
+    registerDepartment.transition_registerDepartment(code,id)
 
-     conn.commit()
-     cursor1.close()
-     conn.close()
+   
      
 #--------frames-------------#
 
  whole_frame=Frame(secPage,bg= '#E2DAD6')
- whole_frame.place(width=1600,height=900)
+ whole_frame.place(width=1200,height=600) # width = 1200  height = 600 
 
  main_frame=Frame(secPage , bg= '#E2DAD6')
- main_frame.place(relx=0.5,rely=0.5,anchor='center')
+ main_frame.place(relx=0.5,rely=0.65,anchor='center')
 
 #-----------------------------------------------------
 
  adge_frame = Frame(secPage , bg= '#6482AD')
- adge_frame.place(x=0 , y= 0 , width=1600 , height=95)
+ adge_frame.place(x=0 , y= 0 , width=1200 , height=75) # width = 1200 height = 95 
 
 #-----------------------------------------------------
 
  title_frame = Frame(secPage , bg= '#7FA1C3')
- title_frame.place(x=0 , y= 98 , width=1600 , height=100)
+ title_frame.place(x=0 , y= 78 , width=1200 , height=80) # width = 1200 height = 100 
 
 #-----------------------------------------------------
 
@@ -93,7 +96,7 @@ def transition(code,id) :
 
  lbl1=Label(main_frame,text="Student Info",fg="black",font=baseFont,justify='center' ,bg= '#E2DAD6')   #---->page title
 
- lbl1.grid(row=0,columnspan=4,pady=50)
+ lbl1.grid(row=0,columnspan=4,pady=20)
 #----------------------------------------------------
  lbl_name=Label(main_frame,text="Name",fg="black",font=baseFont ,bg= '#E2DAD6')      #---->Name
  txt_name=Entry(main_frame,font=baseFont ,textvariable=st_nm,state="readonly")
@@ -143,7 +146,7 @@ def transition(code,id) :
 
 #-----------------------------------------------------
 
- abt_btn=Button(main_frame,text="About",width=20,font=("Arial", 14), bg="#6482AD" , fg='white',command=aboutPage)   #-----> About button
+ abt_btn=Button(main_frame,text="Back",width=20,font=("Arial", 14), bg="#6482AD" , fg='white',command=LoginPage)   #-----> About button
 
  abt_btn.grid(row=7,column=3)
 #--------------------------------------------------
