@@ -2,13 +2,18 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import tkinter as tk
-from PIL import Image , ImageTk
+from PIL import Image , ImageTk # type: ignore
 import sqlite3
 import getInfo
 
 
 
-# student_code :'202233235',  student id:'30402051700999' //test
+# student_code :'202233263',  student id:'30402051701027' //test 1  gpa =3.9
+# student_code :'202233284',  student id:'30402051701048' //test 3  gpa =2.9
+# student_code :'202233246',  student id:'30402051701010' //test 2  gpa =2.1
+# student_code :'202233253',  student id:'30402051701017' //test 4  gpa =0.4
+
+
   #==> login window
 root = Tk()
 root.iconbitmap("images\\icon1.ico")
@@ -85,13 +90,13 @@ student_id_lbl.grid(row = 2 , column = 0 , pady = 20 , padx = 20)
 student_id_entry = Entry(login_frame, font = baseFont,show='*')
 student_id_entry.grid(row = 2 , column = 1, pady = 20)
 
-
 student_code_label = Label(login_frame,
                            text="Student code", 
                            font = ("Arial",16) ,
                            justify='center' ,
                            bg='#E2DAD6')
 student_code_label.grid(row = 1 , column = 0 , pady = 60 , padx = 100)
+
 
 student_code_entry = Entry(login_frame, font = baseFont)
 student_code_entry.grid(row = 1 , column = 1, pady = 20)

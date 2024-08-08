@@ -89,10 +89,20 @@ def transition_registerDepartment(code, id):
          for dp_name, dp_gpa in departmentGpa.items():
              if studentGpa >= dp_gpa:
                  validDepartment.append(dp_name)
- 
+        
+         print(validDepartment)
+         print(departmentSelected)
+        
+         def get_index_safe(lst, element):
+            try:
+                 return lst.index(element)
+            except ValueError:
+                 return None
+
+
         #  get validDepartment depend on departmentSelected
          for i in range(4):
-             index = validDepartment.index(departmentSelected[i])
+             index = get_index_safe(validDepartment,departmentSelected[i])
              if type(index) is int:
                  cursor.execute("select department_id from departments where department_name=?",(validDepartment[index],))
                  [department_ID]=cursor.fetchone()
@@ -101,7 +111,7 @@ def transition_registerDepartment(code, id):
                  messagebox.showinfo('Success', f"Congratulations, You Joined to {validDepartment[index]} Department")
                  return
              
-         messagebox.showerror("Error", "Sorry, not allowed to register department")
+         messagebox.showerror("Error", "Sorry, not allowed to register department (your GPA under 1.0)")
 
     def handleSubmit():
        cursor.execute("SELECT gpa,department_id FROM students WHERE student_id = ?", (id,))
@@ -118,6 +128,7 @@ def transition_registerDepartment(code, id):
        #handle if you already joined to department
        if department_id:
            return messagebox.showerror("Error", f"You already in {department_name[0]}")
+       
        
        #The first time to register
        specifyDepartment(gpa)
